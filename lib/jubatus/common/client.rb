@@ -42,7 +42,6 @@ end
 class ClientBase
   def initialize(host, port, name, timeout_sec)
     @cli = MessagePack::RPCOverHTTP::Client.new("http://#{host}:#{port}")
-    @cli.timeout = timeout_sec
     @jubatus_client = Jubatus::Common::Client.new(@cli, name)
   end
 

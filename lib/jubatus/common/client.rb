@@ -21,7 +21,7 @@ class Client
     args.zip(args_type).each do |v, t|
       values << t.to_msgpack(v)
     end
-    future = @client.call_async_apply(method, values)
+    future = @client.call_async(method, values)
     future.attach_error_handler do |error, result|
       error_handler(error, result)
     end
@@ -38,14 +38,14 @@ class Client
     elsif error == 2
       raise TypeMismatch
     else
-      raise MessagePack::RPC::RPCError.create(error, result)
+      raise "#{error.to_s} , #{result.to_s}"
     end
   end
 end
 
 class ClientBase
   def initialize(host, port, name, timeout_sec)
-    @cli = MessagePack::RPC::Client.new(host, port)
+    @cli = MessagePack::RPCOverHTTP::Client.new("http://#{host}:#{port}")
     @cli.timeout = timeout_sec
     @jubatus_client = Jubatus::Common::Client.new(@cli, name)
   end

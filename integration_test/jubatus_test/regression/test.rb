@@ -41,7 +41,7 @@ class RegressionTest < Test::Unit::TestCase
   end
 
   def test_get_client
-    assert_instance_of( MessagePack::RPC::Client, @cli.get_client )
+    assert_instance_of( MessagePack::RPCOverHTTP::Client, @cli.get_client )
   end
 
   def test_get_config

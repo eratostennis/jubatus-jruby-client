@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-require 'msgpack/rpc'
+require 'msgpack-rpc-over-http'
 
 class TestUtil
     def self.wait_server(port)
-        cli = MessagePack::RPC::Client.new("127.0.0.1", port)
+        cli = MessagePack::RPCOverHTTP::Client.new("http://127.0.0.1:#{port}")
         sleep_time = 1000;
         # 1000 * \sum {i=0..9} 2^i = 1024000 micro sec = 1024 ms
         for i in 0..9
@@ -13,8 +13,8 @@ class TestUtil
             begin
                 cli.call("dummy")
                 raise "dummy rpc succeeded"
-            rescue MessagePack::RPC::RPCError => ex
-                return if ex.class == MessagePack::RPC::RemoteError
+            rescue  => ex
+                return if ex.class == MessagePack::RPCOverHTTP::RemoteError
             end
             sleep_time *= 2;
         end

@@ -28,7 +28,7 @@ class ErrorTest < Test::Unit::TestCase
 
     TestUtil.write_file("config_for_error.json", @config.to_json)
     @srv = TestUtil.fork_process("classifier", PORT, "config_for_error.json")
-    cli = MessagePack::RPC::Client.new(HOST, PORT)
+    cli = MessagePack::RPCOverHTTP::Client.new("http://#{HOST}:#{PORT}")
     @cli = Jubatus::Common::Client.new(cli, "name")
   end
 

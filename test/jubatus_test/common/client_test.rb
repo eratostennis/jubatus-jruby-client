@@ -1,6 +1,6 @@
 require 'test/unit'
 require 'jubatus/common'
-require 'msgpack/rpc'
+require 'msgpack-rpc-over-http-jruby'
 
 module Jubatus
 module Common
@@ -22,7 +22,7 @@ class DummyFuture
         if @handler
           @handler.call(@error, @result)
         else
-          raise MessagePack::RPC::RPCError.create(@error, @result)
+          raise "#{error.to_s} , #{result.to_s}"
         end
     else
       return @result
@@ -83,13 +83,6 @@ class ClientTest < Test::Unit::TestCase
   def test_type_mismatch
     c = Jubatus::Common::Client.new(AlwaysRaiseTypeMismatch.new, "name")
     assert_raise(Jubatus::Common::TypeMismatch) {
-      c.call("test", [], nil, [])
-    }
-  end
-
-  def test_remote_error
-    c = Jubatus::Common::Client.new(AlwaysRaiseRemoteError.new, "name")
-    assert_raise(MessagePack::RPC::RemoteError) {
       c.call("test", [], nil, [])
     }
   end

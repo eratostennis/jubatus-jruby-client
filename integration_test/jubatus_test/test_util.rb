@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-require 'msgpack-rpc-over-http'
+require 'msgpack-rpc-over-http-jruby'
 
 class TestUtil
     def self.wait_server(port)

@@ -21,7 +21,7 @@ class Client
     args.zip(args_type).each do |v, t|
       values << t.to_msgpack(v)
     end
-    future = @client.call_async(method, values)
+    future = @client.call_async_apply(method, values)
     future.attach_error_handler do |error, result|
       error_handler(error, result)
     end
